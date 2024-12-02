@@ -1,8 +1,9 @@
 import { cookies } from 'next/headers';
 import { verifyToken } from './jwt';
 import type { User } from '@/lib/types';
+import { cache } from 'react';
 
-export async function getSession(): Promise<User | null> {
+export const getSession = cache(async (): Promise<User | null> => {
   const token = cookies().get('token')?.value;
   
   if (!token) {
@@ -20,4 +21,4 @@ export async function getSession(): Promise<User | null> {
   } catch {
     return null;
   }
-}
+});
